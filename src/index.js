@@ -1,17 +1,34 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React, { Component } from'react';
+import ReactDom, { render } from 'react-dom';
+import Main from './Component/Main';
+import {BrowserRouter} from 'react-router-dom';
+import {createStore,applyMiddleware} from 'redux';
+import rootReducer from './Redux/reducer';
+import {Provider} from 'react-redux';
+import App from "./Component/App";
+import thunk from 'redux-thunk';
+import {database} from './Database/config';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+const store=createStore(rootReducer,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),applyMiddleware(thunk));
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+
+
+// const element=React.createElement('h1',null,'hello bro');
+// const element =React.createElement('ul',null,
+// React.createElement('li',null,'first'),
+// React.createElement('li',null,'second'),
+// React.createElement('li',null,'third'));
+
+// const arr=['first','second','third'];
+// const element=<ol>
+//   {arr.map((a)=><li>{a}</li>)}
+// </ol>
+
+// const element=<ol>
+//   <li>{arr[0]}</li>
+//   <li>{arr[1]}</li>
+//   <li>{arr[2]}</li>
+// </ol>
+
+ReactDom.render(<Provider store={store}><BrowserRouter><App/></BrowserRouter></Provider>,document.getElementById('root'));
